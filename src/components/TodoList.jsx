@@ -1,23 +1,29 @@
 import { useState } from "react";
+import { handleDeleteTask } from "../utils/handleDeleteTask";
+import { handleOnChange } from "../utils/handleOnChange";
 
 export function TodoList() {
   const [textInput, setTextInput] = useState("");
-  const [todoList, setTodoList] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [isVisible, setIsVisible] = useState(true);
 
-  function handleOnChange(event) {
-    setTextInput(event.target.value);
-  }
-
-  function handleOnClick() {
-    setTodoList([
-      ...todoList,
-      {
-        id: crypto.randomUUID(),
-        task: textInput,
-      },
-    ]);
+  function handleAddTask() {
+    if (isVisible) {
+      if (!textInput.trim()) {
+        alert("Empty input - task not added");
+      } else {
+        setTasks([
+          ...tasks,
+          {
+            id: crypto.randomUUID(),
+            todo: textInput,
+          },
+        ]);
+      }
+    }
 
     setTextInput("");
+    setIsVisible(true);
   }
 
   return (
@@ -29,28 +35,49 @@ export function TodoList() {
           </h6>
         </div>
 
-        <div className="todo-list">
-          {todoList.map((list) => {
+        <div className="todo-task">
+          {tasks.map((task) => {
             return (
-              <div key={list.id}>
-                <input type="text" value={list.task} readOnly />
-                <button>x</button>
+              <div key={task.id}>
+                <input type="text" value={task.todo} readOnly />
+                <button
+                  onClick={() => {
+                    handleDeleteTask(tasks, task.id, setTasks);
+                  }}
+                >
+                  x
+                </button>
               </div>
             );
           })}
         </div>
 
-        <div className="todo-input">
-          <input type="text" value={textInput} onChange={handleOnChange} />
-          {todoList.length > 0 ? (
-            <button>x</button>
-          ) : (
-            <button onClick={handleOnClick}>+</button>
-          )}
-        </div>
+        {isVisible && (
+          <div className="todo-input">
+            <input
+              type="text"
+              value={textInput}
+              onChange={(e) => {
+                handleOnChange(e, setTextInput);
+              }}
+              placeholder="Todo"
+            />
+            {tasks.length > 0 ? (
+              <button
+                onClick={() => {
+                  setIsVisible(false);
+                }}
+              >
+                x
+              </button>
+            ) : (
+              <button onClick={handleAddTask}>+</button>
+            )}
+          </div>
+        )}
 
         <div className="todo-add">
-          <button onClick={handleOnClick}>+ Add TODO LIST</button>
+          <button onClick={handleAddTask}>+ Add TODO LIST</button>
         </div>
       </div>
     </>
