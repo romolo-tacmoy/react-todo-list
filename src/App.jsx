@@ -7,7 +7,7 @@ function App() {
     <>
       <h1>Add Form</h1>
       <TodoList />
-      {/* <TodoListWithDescription /> */}
+      <TodoListWithDescription />
     </>
   );
 }
