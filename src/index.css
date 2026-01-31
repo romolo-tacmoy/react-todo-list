@@ -1,6 +1,14 @@
+@import "tailwindcss";
+
 body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  @apply font-[Arial];
+}
+
+button,
+input[type="text"] {
+  @apply border border-gray-300 rounded;
+}
+
+button {
+  @apply text-white px-2;
 }

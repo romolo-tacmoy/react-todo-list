@@ -28,19 +28,18 @@ export function TodoList() {
 
   return (
     <>
-      <div className="todo-container">
-        <div className="todo-title">
-          <h6>
-            TODO LIST <span>*</span>
-          </h6>
-        </div>
+      <div className="flex flex-col gap-2">
+        <h6 className="font-bold">
+          TODO LIST <span className="text-red-500">*</span>
+        </h6>
 
-        <div className="todo-task">
+        <div>
           {tasks.map((task) => {
             return (
-              <div key={task.id}>
+              <div className="flex gap-2" key={task.id}>
                 <input type="text" value={task.todo} readOnly />
                 <button
+                  className="bg-red-500"
                   onClick={() => {
                     handleDeleteTask(tasks, task.id, setTasks);
                   }}
@@ -53,7 +52,7 @@ export function TodoList() {
         </div>
 
         {isVisible && (
-          <div className="todo-input">
+          <div className="flex flex-col gap-2 lg:flex-row md:flex-row">
             <input
               type="text"
               value={textInput}
@@ -64,6 +63,7 @@ export function TodoList() {
             />
             {tasks.length > 0 ? (
               <button
+                className="bg-red-500"
                 onClick={() => {
                   setIsVisible(false);
                 }}
@@ -71,14 +71,19 @@ export function TodoList() {
                 x
               </button>
             ) : (
-              <button onClick={handleAddTask}>+</button>
+              <button className="bg-blue-500" onClick={handleAddTask}>
+                +
+              </button>
             )}
           </div>
         )}
 
-        <div className="todo-add">
-          <button onClick={handleAddTask}>+ Add TODO LIST</button>
-        </div>
+        <button
+          className="bg-blue-500 text-white py-1 px-4 rounded text-sm lg:text-base md:text-base"
+          onClick={handleAddTask}
+        >
+          + Add TODO LIST
+        </button>
       </div>
     </>
   );

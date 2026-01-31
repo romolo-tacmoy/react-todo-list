@@ -31,71 +31,82 @@ export function TodoListWithDescription() {
 
   return (
     <>
-      <div className="todo-container">
-        <h6>
-          TODO LIST with Description <span>*</span>
+      <div className="flex flex-col gap-2">
+        <h6 className="font-bold">
+          TODO LIST with Description <span className="text-red-500">*</span>
         </h6>
-      </div>
-      <div className="todo-task">
-        {taskWithDescriptions.map((taskWithDescription) => {
-          return (
-            <div key={taskWithDescription.id}>
-              <input type="text" value={taskWithDescription.todo} readOnly />
+
+        <div>
+          {taskWithDescriptions.map((taskWithDescription) => {
+            return (
+              <div className="flex gap-2" key={taskWithDescription.id}>
+                <input type="text" value={taskWithDescription.todo} readOnly />
+                <input
+                  type="text"
+                  value={taskWithDescription.description}
+                  readOnly
+                />
+                <button
+                  class="bg-red-500"
+                  onClick={() => {
+                    handleDeleteTask(
+                      taskWithDescriptions,
+                      taskWithDescription.id,
+                      setTaskWithDescriptions,
+                    );
+                  }}
+                >
+                  x
+                </button>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-col gap-2 lg:flex-row md:flex-row">
+          {isVisible && (
+            <>
               <input
                 type="text"
-                value={taskWithDescription.description}
-                readOnly
+                value={taskInput}
+                placeholder="Task"
+                onChange={(e) => {
+                  handleOnChange(e, setTaskInput);
+                }}
               />
-              <button
-                onClick={() => {
-                  handleDeleteTask(
-                    taskWithDescriptions,
-                    taskWithDescription.id,
-                    setTaskWithDescriptions,
-                  );
+              <input
+                type="text"
+                value={descriptionInput}
+                placeholder="Description"
+                onChange={(e) => {
+                  handleOnChange(e, setDescriptionInput);
                 }}
-              >
-                x
-              </button>
-            </div>
-          );
-        })}
-      </div>
-      <div className="todo-input">
-        {isVisible && (
-          <>
-            <input
-              type="text"
-              value={taskInput}
-              placeholder="Task"
-              onChange={(e) => {
-                handleOnChange(e, setTaskInput);
-              }}
-            />
-            <input
-              type="text"
-              value={descriptionInput}
-              placeholder="Description"
-              onChange={(e) => {
-                handleOnChange(e, setDescriptionInput);
-              }}
-            />
-            {taskWithDescriptions.length > 0 ? (
-              <button
-                onClick={() => {
-                  setIsVisible(false);
-                }}
-              >
-                x
-              </button>
-            ) : (
-              <button onClick={handleAddTaskWithDescription}>+</button>
-            )}
-          </>
-        )}
-      </div>
-      <div className="todo-add">
-        <button onClick={handleAddTaskWithDescription}>
+              />
+              {taskWithDescriptions.length > 0 ? (
+                <button
+                  className="bg-red-500"
+                  onClick={() => {
+                    setIsVisible(false);
+                  }}
+                >
+                  x
+                </button>
+              ) : (
+                <button
+                  className="bg-blue-500"
+                  onClick={handleAddTaskWithDescription}
+                >
+                  +
+                </button>
+              )}
+            </>
+          )}
+        </div>
+
+        <button
+          className="bg-blue-500 text-white py-1 px-4 rounded text-sm lg:text-base md:text-base"
+          onClick={handleAddTaskWithDescription}
+        >
           + Add TODO LIST with Description
         </button>
       </div>
